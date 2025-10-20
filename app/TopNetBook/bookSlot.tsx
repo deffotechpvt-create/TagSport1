@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import moment from "moment";
 import React, { useState } from "react";
 import {
@@ -97,12 +98,17 @@ export default function BookingScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.monthText}>
-          {currentDate.format("MMMM")}{" "}
-          <Text style={styles.yearText}>{currentDate.format("YYYY")}</Text>
-        </Text>
-      </View>
+      <View style={styles.headerRow}>
+  <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+    <Ionicons name="chevron-back" size={24} color="white" />
+  </TouchableOpacity>
+  <Text style={styles.monthText}>
+    {currentDate.format("MMMM")}{" "}
+    <Text style={styles.yearText}>{currentDate.format("YYYY")}</Text>
+  </Text>
+  {/* optional empty view to balance spacing */}
+  <View style={{ width: 24 }} />
+</View>
 
       {/* Date Selector */}
       <View style={styles.dateRow}>
@@ -211,9 +217,6 @@ export default function BookingScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <TouchableOpacity
-              onPress={() => setSuccessVisible(false)}
-            >
             <View style={styles.successCircle}>
               <Ionicons name="checkmark" size={50} color="white" />
             </View>
@@ -222,11 +225,14 @@ export default function BookingScreen() {
               Your request has been completed. {"\n"} Everything is set!
             </Text>
 
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={styles.okButton}
-              onPress={() => setSuccessVisible(false)}
-            > */}
-              {/* <Text style={styles.okText}>OK</Text> */}
+              onPress={() => {
+                setSuccessVisible(false);
+                router.push("/TopNetBook/booking");
+              }}
+            > 
+              <Text style={styles.okText}>OK</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -237,7 +243,18 @@ export default function BookingScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#1A1A1A", paddingTop: 40 },
-  header: { alignItems: "center", padding: 16 },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  backButton: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.1)",
+  },
   monthText: { color: "white", fontSize: 22, fontWeight: "bold" },
   yearText: { color: "#007BFF" },
 
@@ -358,5 +375,19 @@ const styles = StyleSheet.create({
   },
   successTitle: { color: "white", fontSize: 22, fontWeight: "bold", marginBottom: 8, alignSelf: 'center', },
   successMessage: { color: "#bbb", fontSize: 14, textAlign: "center", marginBottom: 20,  alignSelf: 'center', },
-  
+  okButton: {
+    backgroundColor: "#39FF14", 
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  okText: {
+    color: "#000", 
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
 });

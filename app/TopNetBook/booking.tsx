@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import Modal from "react-native-modal";
 import { router } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Modal from "react-native-modal";
+
+const { width } = Dimensions.get("window");
 
 const BookingDetails = () => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedSport, setSelectedSport] = useState("Cricket"); // default
+  const [selectedSport, setSelectedSport] = useState("Cricket"); 
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -20,13 +22,73 @@ const BookingDetails = () => {
     setModalVisible(false); 
   }
 
+  const images = [
+    require('../../assets/images/centre1.jpg'),
+    require('../../assets/images/centre2.png'),
+    require('../../assets/images/centre3.png')
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex(prevIndex => {
+        const nextIndex = (prevIndex + 1) % images.length;
+        flatListRef.current?.scrollToOffset({
+          offset: nextIndex * width ,
+          animated: true,
+        });
+        return nextIndex;
+      });
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+
   return (
     <ScrollView style={styles.container}>
       {/* Image */}
-      <Image
-        source={require('../../assets/images/centre1.jpg')}
-        style={styles.mainImage}
-      />
+      <View style={styles.imageContainer}>
+        <FlatList
+          data={images}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          ref={flatListRef}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({ item }) => (
+            <Image source={item} style={styles.mainImage} />
+          )}
+          onMomentumScrollEnd={event => {
+            const index = Math.round(event.nativeEvent.contentOffset.x / width);
+            setActiveIndex(index);
+          }}
+        />
+
+        {/* Top Buttons */}
+        <TouchableOpacity style={styles.backButton} onPress={() => router.push('/TopNetBook/search')}>
+          <Ionicons name="chevron-back" size={28} color="#fff" />
+        </TouchableOpacity>
+        <View style={styles.rightIcons}>
+          <TouchableOpacity style={{ marginRight: 12 }}>
+            <Ionicons name="heart-outline" size={24} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Feather name="share-2" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Dots */}
+        <View style={styles.dotContainer}>
+          {images.map((_, index) => (
+            <View
+              key={index}
+              style={[styles.dot, activeIndex === index && styles.activeDot]}
+            />
+          ))}
+        </View>
+      </View>
 
       {/* Title & Price */}
       <View style={styles.header}>
@@ -70,32 +132,31 @@ const BookingDetails = () => {
       </View>
 
       {/* Sports */}
-      {/* Sports */}
-<View style={styles.card}>
-  <TouchableOpacity onPress={toggleModal}>
-    <Text style={styles.cardTitle}>Available Sports</Text>
-    <View style={styles.row}>
-      {["Cricket", "Chess", "Carrom"].map((sport) => (
-        <View
-          key={sport}
-          style={[
-            styles.sportButton,
-            selectedSport === sport && styles.activeSport
-          ]}
-        >
-          <Text
-            style={[
-              styles.sportButtonText,
-              selectedSport === sport && styles.activeSportText
-            ]}
-          >
-            {sport}
-          </Text>
-        </View>
-      ))}
-    </View>
-  </TouchableOpacity>
-</View>
+      <View style={styles.card}>
+        <TouchableOpacity onPress={toggleModal}>
+          <Text style={styles.cardTitle}>Available Sports</Text>
+          <View style={styles.row}>
+            {["Cricket", "Chess", "Carrom"].map((sport) => (
+              <View
+                key={sport}
+                style={[
+                  styles.sportButton,
+                  selectedSport === sport && styles.activeSport
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.sportButtonText,
+                    selectedSport === sport && styles.activeSportText
+                  ]}
+                >
+                  {sport}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </TouchableOpacity>
+      </View>
 
 
       {/* Modal */}
@@ -189,14 +250,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#111",
-    paddingTop: 70,
+    paddingTop: 50,
     paddingHorizontal: 24,
   },
-  mainImage: {
-    width: "100%",
-    height: 215,
-    borderRadius: 10,
-  },
+  imageContainer: { position: "relative" },
+  mainImage: { width: width-48 , height: 215, borderRadius: 10, },
+  backButton: { position: "absolute", top: 15, left: 15, backgroundColor: "#00000060", padding: 6, borderRadius: 20 },
+  rightIcons: { position: "absolute", top: 15, right: 15, flexDirection: "row" },
+  dotContainer: { position: "absolute", bottom: 10, alignSelf: "center", flexDirection: "row" },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: "#888", marginHorizontal: 4 },
+  activeDot: { backgroundColor: "#fff" },
+
   header: {
     marginVertical: 12,
   },

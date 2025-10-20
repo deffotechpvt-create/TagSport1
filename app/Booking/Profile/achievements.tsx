@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function LeaderboardScreen() {
   const [name, setName] = useState("");
@@ -37,7 +37,7 @@ export default function LeaderboardScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={{top: -8}} onPress={()=>router.push('/Booking/profile')}><Ionicons name="close" size={24} color="#fff" /></TouchableOpacity>
+        <TouchableOpacity style={{top: -8}} onPress={()=>router.back()}><Ionicons name="close" size={24} color="#fff" /></TouchableOpacity>
         <Text style={styles.headerTitle}>Leadership Board</Text>
         <View style={{ width: 30 }} />
       </View>

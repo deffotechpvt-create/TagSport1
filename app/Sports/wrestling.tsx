@@ -145,7 +145,7 @@ const wrestlingData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Wrestling() {
   return (
     <SportsScreen
       sportTitle="Wrestling"

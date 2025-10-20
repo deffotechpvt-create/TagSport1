@@ -1,7 +1,7 @@
-import React from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React from "react";
+import { FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const seats = [
   { id: "1", sector: "Sector 345", row: "Row 8", type: "Behind the Stumps", price: 2999, image: require("../../../assets/images/Ticket/1.png") },
@@ -14,9 +14,14 @@ const seats = [
 const Ticket = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.headerRow}>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/home')} style={styles.backButton}>
+          <Ionicons name="chevron-back" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Tickets</Text>
+        <View style={{ width: 24 }} /> 
+      </View>
       <ScrollView>
-
-        {/* Video Section */}
         <View style={styles.videoContainer}>
           <View style={styles.videoWrapper}>
             <ImageBackground 
@@ -24,7 +29,7 @@ const Ticket = () => {
               style={styles.videoThumbnail}
               imageStyle={{ borderRadius: 12 }}
             >
-              {/* <Image 
+              <Image 
                   source={require("../../../assets/images/top.png")}
                   style={styles.topOverlay}
                   resizeMode="cover"
@@ -39,7 +44,7 @@ const Ticket = () => {
                   source={require("../../../assets/images/bottom.png")}
                   style={styles.bottomOverlay}
                   resizeMode="cover"
-              /> */}
+              />
             </ImageBackground>
           </View>
         </View>
@@ -76,12 +81,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1A1A1A",
+    paddingTop: 40
   },
   
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    // paddingVertical: 16,
+  },
+  backButton: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.1)",
+  },
+  headerTitle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
   videoContainer: {
     width: "100%",
     height: 220,
-    marginTop: 45,
+    marginTop: 15,
   },
   videoWrapper: {
     flex: 1,

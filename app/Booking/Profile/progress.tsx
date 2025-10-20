@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native'
-import PieChart from 'react-native-pie-chart'
-import { LineChart } from 'react-native-chart-kit'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
+import React, { useState } from 'react'
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { LineChart } from 'react-native-chart-kit'
+import PieChart from 'react-native-pie-chart'
 
 const screenWidth = Dimensions.get('window').width
 const widthAndHeight = 182
 
 type Tab = 'Week' | 'Month' | 'Year'
 
-export default function TestChart() {
+export default function Progress() {
   const [selectedTab, setSelectedTab] = useState<Tab>('Week')
 
   const lineDataSets: Record<Tab, { labels: string[]; datasets: { data: number[] }[] }> = {
@@ -45,7 +45,7 @@ export default function TestChart() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push('/Booking/profile')}>
+        <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="close" size={24} color="#fff" />
         </TouchableOpacity>
 

@@ -1,17 +1,16 @@
-// SportsScreen.tsx
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  FlatList,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React from "react";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -51,13 +50,13 @@ const memories = [
     id: "1",
     title: "MS Dhoni collects a stump after hitting the winning runs",
     img: require("../../assets/images/Products/mem1.png"),
-    link: '/Products/match' as const,
+    link: '/Store/match' as const,
   },
   {
     id: "2",
     title: "Iconic Goal \nCelebrations - #2",
     img: require("../../assets/images/Products/mem2.png"),
-    link: '/Products/match' as const,    
+    link: '/Store/match' as const,    
   },
 ];
 
@@ -66,7 +65,7 @@ const collections = [
   { id: "2", img: require("../../assets/images/Products/mem2.png") },
 ];
 
-export default function SportsScreen() {
+export default function NFTCollection() {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -132,24 +131,6 @@ export default function SportsScreen() {
         </View>
       </ScrollView>
 
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Products/home')}>
-          <Ionicons name="home" size={22} color="#fff" />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="folder-outline" size={22} color="#3b82f6" />
-          <Text style={[styles.navText, { color: "#3b82f6" }]}>NFT Collections</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/')}>
-          <Ionicons name="cart-outline" size={22} color="#fff" />
-          <Text style={styles.navText}>Rent Products</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/profile')}>
-          <Ionicons name="person" size={22} color="#fff" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

@@ -145,7 +145,7 @@ const athleticData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Athletic() {
   return (
     <SportsScreen
       sportTitle="Athletic"

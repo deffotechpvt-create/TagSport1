@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import { useRouter } from 'expo-router';
-import { View, ActivityIndicator } from 'react-native';
+import { useEffect } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 export default function Index() {
   const router = useRouter();
@@ -8,7 +8,7 @@ export default function Index() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace('/Screens/startscreen'); 
-    }); // short delay ensures layout is mounted
+    }); 
 
     return () => clearTimeout(timer);
   }, []);

@@ -1,19 +1,21 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-  ScrollView,
-  ImageBackground,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  FlatList,
+  Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function SportsPage() {
+  const [query, setQuery] = useState("");
+
   const people = [
     {
       id: "1",
@@ -25,21 +27,21 @@ export default function SportsPage() {
     {
       id: "2",
       name: "Rose",
-      skills: "Cricket | Chess | Carrom",
+      skills: "Football | Badminton | Tennis",
       image: require("../../assets/images/Photos/prof2.jpg"),
       cover: require("../../assets/images/Photos/CImg2.png"),
     },
     {
       id: "3",
       name: "Jason",
-      skills: "Cricket | Chess | Carrom",
+      skills: "Cricket | Volleyball | Chess",
       image: require("../../assets/images/Photos/prof3.jpg"),
       cover: require("../../assets/images/Photos/CImg3.png"),
     },
     {
       id: "4",
       name: "Sam",
-      skills: "Cricket | Chess | Carrom",
+      skills: "Basketball | Chess | Carrom",
       image: require("../../assets/images/Photos/prof4.jpg"),
       cover: require("../../assets/images/Photos/CImg4.png"),
     },
@@ -49,25 +51,42 @@ export default function SportsPage() {
     {
       id: "1",
       name: "PK Cricket Roof Net",
-      desc: "Durable, long lasting and made from supreme nylon stuff with mesh size of 1.7 inches that’s suitable for vigorous batting, bowling",
+      desc: "Durable, long lasting and made from supreme nylon stuff with mesh size of 1.7 inches that's suitable for vigorous batting, bowling ",
       image: require("../../assets/images/Photos/ground1.jpg"),
     },
     {
       id: "2",
-      name: "PK Cricket Roof Net",
-      desc: "Durable, long lasting and made from supreme nylon stuff with mesh size of 1.7 inches that’s suitable for vigorous batting, bowling",
+      name: "Blue Turf Football Arena",
+      desc: "Durable, long lasting and made from supreme nylon stuff with mesh size of 1.7 inches that's suitable for vigorous batting, bowling ",
       image: require("../../assets/images/Photos/ground2.jpg"),
     },
   ];
 
+  const filteredPeople = people.filter(
+    (p) =>
+      p.name.toLowerCase().includes(query.toLowerCase()) ||
+      p.skills.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const filteredGrounds = grounds.filter((g) =>
+    g.name.toLowerCase().includes(query.toLowerCase())
+  );
+
   return (
     <ScrollView style={styles.container}>
-      {/* Top Section: Map + Search + Location */}
+      {/* Map Section */}
       <View style={styles.mapContainer}>
         <ImageBackground
           source={require("../../assets/images/Photos/map.jpg")}
           style={styles.mapImage}
         >
+          <TouchableOpacity
+            style={styles.backIcon}
+            onPress={() => router.push('/TopNetBook/addCalendar')}
+          >
+            <Ionicons name="chevron-back" size={24} color="#fff" />
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.locationBtn}>
             <Ionicons name="locate" size={18} color="#1A1A1A" />
             <Text style={styles.locationText}>Use my location</Text>
@@ -75,18 +94,28 @@ export default function SportsPage() {
         </ImageBackground>
       </View>
 
-      {/* Search bar below map */}
+      {/* Search bar */}
       <View style={styles.searchWrapper}>
-        <TextInput
-          placeholder="Search grounds or people"
-          placeholderTextColor="#888"
-          style={styles.searchInput}
-        />
+        <View style={styles.searchInputWrapper}>
+          <Ionicons
+            name="search"
+            size={18}
+            color="#888"
+            style={{ marginLeft: 8 }}
+          />
+          <TextInput
+            placeholder="Search grounds or people"
+            placeholderTextColor="#888"
+            style={styles.searchInput}
+            value={query}
+            onChangeText={setQuery}
+          />
+        </View>
       </View>
 
       {/* People Cards */}
       <FlatList
-        data={people}
+        data={filteredPeople.length ? filteredPeople : people}
         keyExtractor={(item) => item.id}
         numColumns={2}
         scrollEnabled={false}
@@ -95,7 +124,7 @@ export default function SportsPage() {
           <View style={styles.personCard}>
             <ImageBackground source={item.cover} style={styles.coverImage}>
               <View style={styles.avatarWrapper}>
-                <Image source={ item.image } style={styles.avatar} />
+                <Image source={item.image} style={styles.avatar} />
                 <Text style={styles.avatarName}>{item.name}</Text>
               </View>
               <TouchableOpacity style={styles.closeBtn}>
@@ -110,19 +139,28 @@ export default function SportsPage() {
         )}
       />
 
-      {/* Grounds Section */}
-      {grounds.map((item) => (
+      {/* Grounds Cards */}
+      {(filteredGrounds.length ? filteredGrounds : grounds).map((item) => (
         <View key={item.id} style={styles.groundCard}>
           <View style={{ flex: 1 }}>
             <Text style={styles.groundTitle}>{item.name}</Text>
             <Text style={styles.groundDesc}>{item.desc}</Text>
-            <TouchableOpacity style={styles.bookingBtn} onPress={()=> router.push('/TopNetBook/booking')}>
+            <TouchableOpacity
+              style={styles.bookingBtn}
+              onPress={() => router.push("/TopNetBook/booking")}
+            >
               <Text style={styles.bookingText}>Booking</Text>
             </TouchableOpacity>
           </View>
           <Image source={item.image} style={styles.groundImage} />
         </View>
       ))}
+
+      {/* No results message */}
+      {filteredPeople.length === 0 &&
+        filteredGrounds.length === 0 && (
+          <Text style={styles.noResults}>No results found.</Text>
+        )}
     </ScrollView>
   );
 }
@@ -147,6 +185,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "flex-end",
   },
+  backIcon: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    padding: 8,
+    borderRadius: 20,
+  },
   locationBtn: {
     position: "absolute",
     bottom: 12,
@@ -163,20 +209,26 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   searchWrapper: {
-    alignSelf:'center',
+    alignSelf: "center",
     top: -50,
-    width: '80%',
+    width: "90%",
   },
-  searchInput: {
+  searchInputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 8,
-    padding: 10,
-    fontSize: 14,
-    textAlign: "center",
+    paddingHorizontal: 8,
     elevation: 3,
   },
+  searchInput: {
+    flex: 1,
+    padding: 10,
+    fontSize: 14,
+    color: "#000",
+  },
 
-  // People
+  // People cards
   personCard: {
     backgroundColor: "#eee",
     borderRadius: 12,
@@ -202,7 +254,7 @@ const styles = StyleSheet.create({
     borderRadius: 42,
     borderWidth: 2,
     borderColor: "#fff",
-    marginTop: 50
+    marginTop: 50,
   },
   avatarName: {
     position: "absolute",
@@ -212,7 +264,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 6,
     borderRadius: 8,
-    marginTop: 70
   },
   closeBtn: {
     position: "absolute",
@@ -225,11 +276,11 @@ const styles = StyleSheet.create({
   skills: {
     color: "#000",
     fontSize: 12,
-    alignSelf: 'center',
-    width: 90,
+    alignSelf: "center",
+    width: 110,
     textAlign: "center",
     marginVertical: 8,
-    marginTop: 60
+    marginTop: 60,
   },
   connectBtn: {
     borderWidth: 1,
@@ -246,11 +297,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  // Grounds
+  // Grounds cards
   groundCard: {
     backgroundColor: "#D9D9D9",
     borderRadius: 8,
-    padding: 24,
+    padding: 30,
     marginBottom: 16,
     flexDirection: "row",
     alignItems: "center",
@@ -266,13 +317,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginVertical: 6,
     width: 190,
+    height: 90
   },
   groundImage: {
-    width: 100,
+    width: 120,
     height: 80,
     borderRadius: 8,
-    marginLeft: 8,
-    marginTop: -10,
+    // marginLeft: 8,
+    marginTop: -30,
   },
   bookingBtn: {
     borderWidth: 1,
@@ -288,5 +340,11 @@ const styles = StyleSheet.create({
     color: "#1A1A1A",
     fontWeight: "600",
     fontSize: 12,
+  },
+  noResults: {
+    color: "#ccc",
+    textAlign: "center",
+    marginTop: 40,
+    fontSize: 14,
   },
 });

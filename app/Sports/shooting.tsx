@@ -145,7 +145,7 @@ const shootingData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Shooting() {
   return (
     <SportsScreen
       sportTitle="Shooting"

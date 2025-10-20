@@ -47,13 +47,7 @@ const footballData: TabContent = {
     },
   ],
   "Coaching Center": [
-    // {
-    //   id: "3",
-    //   title: "Football coaching camps announced across Europe...",
-    //   time: "2 hours ago",
-    //   source: "Sky Sports",
-    //   image: require("../../assets/images/banner1.png"),
-    // },
+
   ],
   Event: [
     {
@@ -148,7 +142,7 @@ const footballData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Football() {
   return (
     <SportsScreen
       sportTitle="Football"

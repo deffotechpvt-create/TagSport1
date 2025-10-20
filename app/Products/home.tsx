@@ -1,21 +1,20 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import React, { useState,useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
   Animated,
-  Easing,
   Dimensions,
-  TextInput,
+  Easing,
   FlatList,
   Image,
-  ScrollView
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
-import Svg, { G, Path, Circle, Polygon, LinearGradient, Defs, Stop } from "react-native-svg";
+import Svg, { Circle, Defs, G, LinearGradient, Path, Polygon, Stop } from "react-native-svg";
 
 const WHEEL_SIZE = 320;
 const { width } = Dimensions.get("window");
@@ -199,7 +198,7 @@ const priceStoreData = [
   },
 ];
 
-export default function App() {
+export default function HomeScreen() {
   const spinValue = useRef(new Animated.Value(0)).current;
 
   const spinWheel = () => {
@@ -275,7 +274,7 @@ export default function App() {
                   fill="url(#grad)"
                 />
 
-                {/* White background circle (so gradient acts like border) */}
+                {/* White background circle */}
                 <Circle
                   cx={(WHEEL_SIZE + 20) / 2}
                   cy={(WHEEL_SIZE + 20) / 2}
@@ -291,7 +290,7 @@ export default function App() {
                     fill={reward.color}
                     stroke="#fff"
                     strokeWidth={2}
-                    transform={`translate(10, 10)`} // center it (because of border offset)
+                    transform={`translate(10, 10)`} 
                   />
                 ))}
 
@@ -305,7 +304,6 @@ export default function App() {
               </G>
             </Svg>
 
-            {/* Labels remain same as your mapping code */}
             {rewards.map((reward, i) => {
               const sliceAngle = 360 / rewards.length;
               const angle = sliceAngle * i + sliceAngle / 30;
@@ -467,7 +465,6 @@ export default function App() {
 
         <View style={styles.brandsHeader}>
           <Text style={styles.sectionTitle}>Brands To Cart </Text>
-          {/* <Ionicons name="cart" size={20} color="white" style={{ marginLeft: 6 }} /> */}
         </View>
 
         <View style={styles.searchRow}>
@@ -544,30 +541,12 @@ export default function App() {
           renderItem={({ item }) => <WishListCard item={item} />}
           keyExtractor={(_, index) => index.toString()}
           numColumns={2}
-          scrollEnabled={false} // keep scrolling controlled by parent ScrollView
+          scrollEnabled={false} 
           columnWrapperStyle={{ justifyContent: "space-between" }}
           contentContainerStyle={{ paddingHorizontal: 6 }}
         />
       </ScrollView>
 
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="home" size={22} color="#3b82f6" />
-          <Text style={[styles.navText, { color: "#3b82f6" }]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Products/nftCollection')}>
-          <Ionicons name="folder-outline" size={22} color="#fff" />
-          <Text style={styles.navText}>NFT Collections</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/')}>
-          <Ionicons name="cart-outline" size={22} color="#fff" />
-          <Text style={styles.navText}>Rent Products</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/profile')}>
-          <Ionicons name="person" size={22} color="#fff" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

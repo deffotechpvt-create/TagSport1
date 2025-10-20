@@ -145,7 +145,7 @@ const boxingData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Boxing() {
   return (
     <SportsScreen
       sportTitle="Boxing"

@@ -1,7 +1,7 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type MembershipCardProps = {
   title: string;
@@ -49,7 +49,6 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
 const Premium = () => {
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={{ top: -5 }} onPress={()=> router.push('/Sports/CoachingCentre/coachingService')}>
           <Ionicons name="chevron-back" size={24} color="#fff" />
@@ -60,7 +59,6 @@ const Premium = () => {
       </View>
       <Text style={styles.subTitle}>No commitment, Cancel anytime</Text>
 
-      {/* Cards */}
       <MembershipCard
         title="Basic access Membership"
         description="Offers access to all gym facilities with options for morning -only. Includes payment options for monthly or annual plans."

@@ -1,12 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Pressable } from "react-native";
-import SwitchStoreModal from "../switchStoreModal"; // import modal
+import { Pressable, TouchableWithoutFeedback, View } from "react-native";
+import SwitchStoreModal from "../switchStoreModal";
 import FloatingActionButton from "./floatingButton";
 
 export default function TabLayout() {
   const [modalVisible, setModalVisible] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const isHomeScreen =
+    pathname === "/home" || pathname === "/(tabs)/home";
 
   return (
     <>
@@ -27,12 +32,21 @@ export default function TabLayout() {
         <Tabs.Screen
           name="home"
           options={{
-            title: "Switch Store",
+            title: isHomeScreen ? "Switch Store" : "Home",
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="home" size={size} color={color} />
             ),
             tabBarButton: (props) => (
-              <Pressable onPress={() => setModalVisible(true)} style={props.style}>
+              <Pressable
+                onPress={() => {
+                  if (isHomeScreen) {
+                    setModalVisible(true);
+                  } else {
+                    router.push("/home");
+                  }
+                }}
+                style={props.style}
+              >
                 {props.children}
               </Pressable>
             ),
@@ -40,11 +54,11 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
-          name="expl"
+          name="bookEvent"
           options={{
-            title: "Explore",
+            title: "Book Event",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="grid-outline" size={size} color={color} />
+              <Ionicons name="calendar" size={size} color={color} />
             ),
           }}
         />
@@ -65,28 +79,48 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
-          name="fitness"
+          name="bookClass"
           options={{
-            title: "Fitness",
+            title: "Book Class",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="walk-outline" size={size} color={color} />
+              <Ionicons name="barbell" size={size} color={color} />
             ),
           }}
         />
 
         <Tabs.Screen
-          name="store"
+          name="profile"
           options={{
-            title: "Store",
+            title: "Profile",
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="bag-outline" size={size} color={color} />
+              <Ionicons name="person" size={size} color={color} />
             ),
           }}
         />
       </Tabs>
 
-      {/* Switch Store Modal */}
-      <SwitchStoreModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      {modalVisible && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.4)",
+            justifyContent: "flex-end",
+          }}
+        >
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={{ flex: 1 }} />
+          </TouchableWithoutFeedback>
+
+          <SwitchStoreModal
+            visible={modalVisible}
+            onClose={() => setModalVisible(false)}
+          />
+        </View>
+      )}
     </>
   );
 }

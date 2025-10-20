@@ -7,9 +7,14 @@ export default function App() {
       name="Sam Sports Academy"
       rating={4.7}
       reviews={255}
-      images={[
+      bannerImages={[   
         require("../../../assets/images/centre1.jpg"),
-        require("../../../assets/images/centre1.jpg"),
+        require("../../../assets/images/Photos/1.png"),
+        require("../../../assets/images/Photos/2.png"),
+        require("../../../assets/images/Photos/3.png"),
+        require("../../../assets/images/Photos/4.png"),
+      ]}
+      photoImages={[
         require("../../../assets/images/Photos/1.png"),
         require("../../../assets/images/Photos/2.png"),
         require("../../../assets/images/Photos/3.png"),

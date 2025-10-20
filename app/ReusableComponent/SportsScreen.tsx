@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type NewsItem = {
   id: string;
@@ -137,7 +137,7 @@ const SportsScreen: React.FC<SportsScreenProps> = ({
                   <Text style={styles.locationText}>{item.location}</Text>
                 </View>
               </View>
-              <TouchableOpacity activeOpacity={0.8} onPress={() => {router.push('/Sports/CoachingCentre/centre1')}}>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => {router.push('/Sports/CoachingCentre/coachingService')}}>
                 <LinearGradient
                   colors={["#4776E6", "#8E54E9"]}
                   start={{ x: 0, y: 0 }}
@@ -206,9 +206,7 @@ const SportsScreen: React.FC<SportsScreenProps> = ({
                 />
                 <View style={styles.promoTextContainer}>
                   <Text style={styles.promoTitle}>{item.promoTitle}</Text>
-                  {/* <Text style={styles.promoDetails}>{item.promoDetails}</Text> */}
 
-                  {/* Date + Time Row */}
                   <View style={styles.eventInfoRow}>
                     {item.eventDate && (
                       <View style={styles.eventInfoItem}>
@@ -296,7 +294,6 @@ const SportsScreen: React.FC<SportsScreenProps> = ({
 
               <View style={styles.trendingMeta}>
                 <Text style={styles.trendingSource}>{item.source}</Text>
-                {/* <Text style={styles.trendingTime}>{item.time}</Text> */}
               </View>
 
               <Text style={styles.trendingTitle}>{item.title}</Text>
@@ -351,7 +348,6 @@ const SportsScreen: React.FC<SportsScreenProps> = ({
                   {tab}
                 </Text>
 
-                {/* Active underline */}
                 {isActive && (
                   <View
                     style={[
@@ -374,7 +370,7 @@ const SportsScreen: React.FC<SportsScreenProps> = ({
 };
 
 export default SportsScreen;
-export type { TabContent, EventItem, NewsItem };
+export type { EventItem, NewsItem, TabContent };
 
 const styles = StyleSheet.create({
   container: {

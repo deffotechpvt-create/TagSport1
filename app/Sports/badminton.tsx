@@ -47,13 +47,7 @@ const badmintonData: TabContent = {
     },
   ],
   "Coaching Center": [
-    // {
-    //   id: "3",
-    //   title: "Football coaching camps announced across Europe...",
-    //   time: "2 hours ago",
-    //   source: "Sky Sports",
-    //   image: require("../../assets/images/banner1.png"),
-    // },
+
   ],
   Event: [
     {
@@ -148,7 +142,7 @@ const badmintonData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Badminton() {
   return (
     <SportsScreen
       sportTitle="Badminton"

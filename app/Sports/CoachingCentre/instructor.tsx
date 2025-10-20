@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React from "react";
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function InstructorProfile() {
   return (
@@ -64,7 +64,6 @@ export default function InstructorProfile() {
         </View>
       </View>
       <View style={styles.bottomDivider} />
-
 
       {/* Info Sections */}
       <View style= {{marginTop: 20}}>

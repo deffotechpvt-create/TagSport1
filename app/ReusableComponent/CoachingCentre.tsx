@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Linking,
-  Dimensions,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Linking,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type SimilarClass = {
   id: string;
@@ -44,7 +44,8 @@ type CoachingCentreProps = {
   name: string;
   rating: number;
   reviews: number;
-  images: any[];
+  bannerImages: any[];   
+  photoImages: any[];    
   location: string;
   openUntil: string;
   contact: string;
@@ -60,17 +61,20 @@ const CoachingCentre: React.FC<CoachingCentreProps> = ({
   name,
   rating,
   reviews,
-  images,
+  bannerImages,
+  photoImages,
   location,
   openUntil,
   contact,
   website,
   similarClasses,
   reviewsData,
-  categories
+  categories,
 }) => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [activeIndex, setActiveIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(
       event.nativeEvent.contentOffset.x / event.nativeEvent.layoutMeasurement.width
@@ -78,19 +82,31 @@ const CoachingCentre: React.FC<CoachingCentreProps> = ({
     setActiveIndex(index);
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (bannerImages.length > 1 && flatListRef.current) {
+        const nextIndex = (activeIndex + 1) % bannerImages.length;
+        const offset = nextIndex * width; 
+        flatListRef.current.scrollToOffset({ offset, animated: true });
+        setActiveIndex(nextIndex);
+      }
+    }, 2000); 
+    return () => clearInterval(interval);
+  }, [activeIndex]);
 
   return (
     <ScrollView style={styles.container}>
       <View>
         <FlatList
-          data={images}
+          ref={flatListRef}
+          data={bannerImages}
           horizontal
           pagingEnabled
           snapToAlignment="center"
           decelerationRate="fast"
           keyExtractor={(_, i) => i.toString()}
           renderItem={({ item }) => (
-            <View style={{ width: width }}> 
+            <View style={{ width: width }}>
               <Image
                 source={item}
                 style={styles.carouselImage}
@@ -101,17 +117,22 @@ const CoachingCentre: React.FC<CoachingCentreProps> = ({
           showsHorizontalScrollIndicator={false}
           onScroll={handleScroll}
           scrollEventThrottle={16}
+          getItemLayout={(_, index) => ({
+            length: width,
+            offset: width * index,
+            index,
+          })}
         />
 
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}
+          onPress={() => router.push('/(tabs)/bookClass')}
         >
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
 
         <View style={styles.dotContainer}>
-          {images.map((_, i) => (
+          {bannerImages.map((_, i) => (
             <View
               key={i}
               style={[
@@ -319,18 +340,17 @@ const CoachingCentre: React.FC<CoachingCentreProps> = ({
           </Text>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            {images[0] && (
+            {photoImages[0] && (
               <View style={{ flex: 1, marginRight: 4 }}>
-                <Image source={images[2]} style={[styles.photo, { height: 260 }]} />
+                <Image source={photoImages[2]} style={[styles.photo, { height: 260 }]} />
               </View>
             )}
 
             <View style={{ flex: 1, justifyContent: "space-between", marginLeft: 4 }}>
-              {images.slice(3, 7).map((item, index) => (
+              {photoImages.slice(1, 5).map((item, index) => (
                 <View key={index} style={{ position: "relative" }}>
                   <Image source={item} style={[styles.photo, { height: 80 }]} />
-                  {/* Camera button on last image */}
-                  {index === images.slice(3, 7).length - 1 && (
+                  {index === photoImages.slice(1, 5).length - 1 && (
                     <TouchableOpacity style={styles.cameraBtn}>
                       <Ionicons name="camera" size={20} color="#007BFF" />
                     </TouchableOpacity>
@@ -367,12 +387,11 @@ const CoachingCentre: React.FC<CoachingCentreProps> = ({
             {categories.map((cat) => (
               <LinearGradient
                 key={cat.id}
-                colors={["#5D5C6300", "#5D5C63"]} // gradient border
+                colors={["#5D5C6300", "#5D5C63"]} 
                 style={styles.categoryBorder}
               >
                 <LinearGradient
-                    colors={["#0000004A", "#0000004A", "#4B4B4B", "#4B4B4B"]} // half black, half gray
-                    // locations={[0, 0.5, 0.5, 1]} // force split at 50%
+                    colors={["#0000004A", "#0000004A", "#4B4B4B", "#4B4B4B"]} 
                     style={styles.categoryCard}
                   >
                   <Image source={cat.image} style={styles.categoryIcon} />
@@ -644,7 +663,7 @@ const styles = StyleSheet.create({
   },
 
  reviewCard: {
-    backgroundColor: "#2a2a2a",   // dark card bg
+    backgroundColor: "#2a2a2a", 
     borderRadius: 12,
     padding: 12,
     marginVertical: 20,
@@ -656,17 +675,12 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     position: "absolute",
-    top: -20,   // pull it above the card
-    left: -10,   // align with padding
+    top: -20,   
+    left: -10,  
     borderWidth: 2,
-    borderColor: "#2a2a2a",  // gives a clean border separation
+    borderColor: "#2a2a2a", 
   },
-  // headerRow: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   marginTop: 24, // leave space because avatar overlaps
-  //   marginBottom: 6,
-  // },
+
   reviewerName: {
     color: "#fff",
     fontSize: 14,

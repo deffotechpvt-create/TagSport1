@@ -1,23 +1,22 @@
-// CoachingServices.tsx
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  ImageBackground
+  View
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
 
 const CoachingServices = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => router.push('/Sports/CoachingCentre/centre1')}>
+        <TouchableOpacity onPress={() => router.push('/Sports/cricket')}>
             <Ionicons name= "chevron-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Coaching Services</Text>

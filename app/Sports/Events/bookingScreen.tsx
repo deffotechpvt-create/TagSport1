@@ -1,13 +1,12 @@
-import React from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const BookingScreen = () => {
   return (
     <ScrollView style={styles.container}>
-      {/* Stadium Image */}
       <View style={styles.imageContainer}>
         <Image
           source={require("../../../assets/images/stadium.jpg")} 
@@ -25,10 +24,8 @@ const BookingScreen = () => {
         </View>
       </View>
 
-      {/* Stadium Name */}
       <Text style={styles.stadiumName}>Chepauk Stadium</Text>
 
-      {/* Location */}
       <View style={styles.locationCard}>
         <View style={styles.locationHeader}>
           <Text style={styles.locationTitle}>Location</Text>
@@ -46,7 +43,6 @@ const BookingScreen = () => {
         </View>
       </View>
 
-      {/* Booking Details */}
       <View style={styles.bookingContainer}>
         <Text style={styles.sectionTitle}>Your Booking</Text>
 
@@ -78,7 +74,6 @@ const BookingScreen = () => {
         </View>
       </View>
 
-      {/* Price Details */}
       <View style={styles.bookingContainer}>
         <Text style={styles.sectionTitle}>Price Details</Text>
         <View style={styles.detailRow}>
@@ -91,7 +86,6 @@ const BookingScreen = () => {
         </View>
       </View>
 
-      {/* Book Button */}
       <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
         <LinearGradient
         colors={["#4776E6", "#8E54E9"]}

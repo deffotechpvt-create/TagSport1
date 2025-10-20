@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, ScrollView } from "react-native";
-import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React, { useState } from "react";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type EventItem = {
   id: string;
@@ -201,25 +201,6 @@ const BookEvent = () => {
         )}
       />
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/homePage')}>
-          <Ionicons name="home" size={22} color="#fff" />
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="calendar" size={22} color="#3b82f6" />
-          <Text style={[styles.navText, { color: "#3b82f6" }]}>Book Event</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/bookClass')}>
-          <Ionicons name="barbell" size={22} color="#fff" />
-          <Text style={styles.navText}>Book Class</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/profile')}>
-          <Ionicons name="person" size={22} color="#fff" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -350,14 +331,4 @@ const styles = StyleSheet.create({
     marginTop: 50 
   },
 
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 10,
-    borderTopWidth: 0.5,
-    borderTopColor: "#444",
-    backgroundColor: "#111",
-  },
-  navItem: { alignItems: "center" },
-  navText: { color: "#fff", fontSize: 12, marginTop: 2 },
 });

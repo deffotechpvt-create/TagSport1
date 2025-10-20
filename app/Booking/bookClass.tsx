@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, TextInput, FlatList, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import React from "react";
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 const classesData = [
   {
@@ -108,24 +108,6 @@ const BookClasses = () => {
         keyExtractor={(item) => item.id}
       />
 
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/homePage')}>
-          <Ionicons name="home" size={22} color="#fff" />
-          <Text style={ styles.navText }>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/bookEvent')}>
-          <Ionicons name="calendar" size={22} color="#fff" />
-          <Text style={styles.navText}>Book Event</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="barbell" size={22} color="#3b82f6" />
-          <Text style={[styles.navText, { color: "#3b82f6" }]}>Book Class</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={()=> router.push('/Booking/profile')}>
-          <Ionicons name="person" size={22} color="#fff" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -271,14 +253,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold"
   },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 10,
-    borderTopWidth: 0.5,
-    borderTopColor: "#444",
-    backgroundColor: "#111",
-  },
-  navItem: { alignItems: "center" },
-  navText: { color: "#fff", fontSize: 12, marginTop: 2 },
+
 });

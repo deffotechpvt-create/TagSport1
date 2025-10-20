@@ -145,7 +145,7 @@ const tabletennisData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function TableTennis() {
   return (
     <SportsScreen
       sportTitle="Table Tennis"

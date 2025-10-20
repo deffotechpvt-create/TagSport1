@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { TouchableOpacity, StyleSheet, GestureResponderEvent, ViewStyle } from 'react-native';
+import { GestureResponderEvent, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 
 interface FloatingActionButtonProps {
   children: ReactNode;

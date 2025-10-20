@@ -119,13 +119,12 @@ const cricketData: TabContent = {
   ],
 };
 
-export default function App() {
+export default function Cricket() {
   return (
     <SportsScreen
       sportTitle="Cricket"
       bannerImage={require("../../assets/images/Cricket/cricketBanner.png")}
       tabData={cricketData}
-      // onClose={() => console.log("Closed Cricket screen")}
     />
   );
 }
